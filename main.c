@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <pthread.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
@@ -10,6 +11,8 @@
 #define HEIGHT 500
 #define WIDTH 600
 #define BLOCK_SIZE 15
+
+pthread_mutex_t lock;
 
 typedef struct Node {
 	SDL_FRect segment;
@@ -49,12 +52,6 @@ void EventLoop(SDL_Renderer *renderer) {
 			running = false;
 		}
 		
-		SDL_FRect snack;
-
-		if (snake_head->segment.x == snack.x && snake_head->segment.y == snack.y) {
-			generate_snack = true;
-			GrowSnake(&tail);
-		}
 
 		while(SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -90,6 +87,12 @@ void EventLoop(SDL_Renderer *renderer) {
 
 		currentTime = SDL_GetTicks();
 		if (currentTime > lastTime + 100) {
+			SDL_FRect snack;
+
+			if (snake_head->segment.x == snack.x && snake_head->segment.y == snack.y) {
+				generate_snack = true;
+				GrowSnake(&tail);
+			}
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			SDL_RenderClear(renderer);
 			MakeSnack(renderer, &generate_snack, &snack);
@@ -149,7 +152,7 @@ void DrawSnake(SDL_Renderer *renderer, int *direction, Snake *snake_head) {
 		SDL_RenderFillRect(renderer, &current->segment);
 		current = current->next;
 	}
-	
+
 	return;
 }
 
