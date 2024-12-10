@@ -85,6 +85,7 @@ Make sure you have the following installed on your system:
 - Implement difficulty levels by increasing the snake's speed over time.
 - Add a pause functionality.
 - Improve collision detection to handle edge cases.
+- Add multiplayer so two Snakes can compete against each other
 
 ---
 
@@ -97,4 +98,3 @@ This project is open-source and available under the [MIT License](LICENSE).
 ## Acknowledgments
 
 - This project uses the [SDL3 library](https://libsdl.org/) for rendering and event handling.
-
